@@ -17,12 +17,17 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import jdk.jfr.Description;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.SQLOutput;
 
 public class ProductListView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         // Data model
         ObservableList<Product> items = FXCollections.observableArrayList (
                 new Product(
@@ -68,6 +73,8 @@ public class ProductListView extends Application {
         lblDescrTitle.setFont(Font.font("", FontWeight.BOLD, 20));
         Label lblDescr = new Label();
         lblDescr.setWrapText(true);
+        Label eur1 = new Label("EUR");
+        Label eur2 = new Label("EUR");
 
         TextField txtprodName = new TextField();
         txtprodName.setEditable(false);
@@ -91,11 +98,13 @@ public class ProductListView extends Application {
 
         HBox hboxProdName = new HBox(10, lblProdName, txtprodName);
         HBox hboxQuantity = new HBox(10, lblQuanitity, txtQuanitity);
-        HBox hboxoldPrice = new HBox(10, lbloldPrice, txtOldPrice);
-        HBox hboxNewPrice = new HBox(10, lblnewPrice, txtNewPrice);
+        HBox hboxoldPrice = new HBox(10, lbloldPrice, txtOldPrice, eur1);
+        HBox hboxNewPrice = new HBox(10, lblnewPrice, txtNewPrice, eur2);
+        HBox hboxBtns = new HBox(btnUpdate, btnReport);
+        hboxBtns.setSpacing(10);
 
 
-        VBox vboxFields = new VBox(hboxProdName, hboxQuantity, hboxoldPrice, hboxNewPrice, prodImageView, lblDescrTitle, lblDescr, btnUpdate, btnReport);
+        VBox vboxFields = new VBox(hboxProdName, hboxQuantity, hboxoldPrice, hboxNewPrice, prodImageView, lblDescrTitle, lblDescr, hboxBtns);
         vboxFields.setSpacing(20);
 
         HBox hboxMain = new HBox(vboxFields, list);
@@ -122,6 +131,7 @@ public class ProductListView extends Application {
                     }
                 });
 
+        // Update item
         btnUpdate.setOnAction(actionEvent ->  {
             int selIdx = list.getSelectionModel().getSelectedIndex();
             if (selIdx != -1) {
@@ -133,6 +143,34 @@ public class ProductListView extends Application {
             }
 
         });
+
+        // Save report
+        btnReport.setOnAction(actionEvent ->  {
+            try {
+                File file = new File("report.txt");
+                if(!file.exists()) {
+                    file.createNewFile();
+                }
+
+                PrintWriter pw = new PrintWriter(file);
+                for(int i = 0; i < items.size(); i++) {
+                    pw.println(items.get(i).getName());
+                    pw.println(items.get(i).getQuantity());
+                    pw.println(items.get(i).getDescription());
+                    pw.println("Instead: " + items.get(i).getOldPrice());
+                    pw.println("Action price: " + items.get(i).getNewPrice());
+                    pw.println();
+
+                }
+                pw.close();
+                System.out.println("Report created");
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
 
         Scene scene = new Scene(hboxMain);
 
