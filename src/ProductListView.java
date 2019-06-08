@@ -30,28 +30,28 @@ public class ProductListView extends Application {
                         "1 Stueck",
                         3.49,
                         2.97,
-                        "resources/images/pfeffer__600x600.jpg",
+                        "/images/pfeffer__600x600.jpg",
                         "Schwarzer Pfeffer verleiht Ihren Speisen eine pikante Schärfe, besonders wenn er länger mitgekocht wird."),
                 new Product(
                         "Schafmilchkaese",
                         "200 Gramm Packung",
                         2.59,
                         1.99,
-                        "resources/images/cheese_salakis__600x600.jpg",
+                        "/images/cheese_salakis__600x600.jpg",
                         "Frisch vom Bio-Schaf"),
                 new Product(
                         "Voeslauer",
                         "1.5 Liter Flasche",
                         0.75,
                         0.49,
-                        "resources/images/voslauer__600x600.jpg",
+                        "/images/voslauer__600x600.jpg",
                         "Spritziges Voeslauer Mineralwasser"),
                 new Product(
                         "Zucker",
                         "500 Gramm Packung",
                         1.39,
                         0.89,
-                        "resources/images/zucker__600x600.jpg",
+                        "/images/zucker__600x600.jpg",
                         "Natürliches Gelieren wird durch Apfelpektin unterstützt, welches im richtigen Verhältnis mit Zitronensäure und Kristallzucker abgemischt wurde.")
         );
 
@@ -86,6 +86,7 @@ public class ProductListView extends Application {
         prodImageView.setFitWidth(200);
 
         Button btnUpdate = new Button("Update");
+        Button btnReport = new Button("Report");
 
 
         HBox hboxProdName = new HBox(10, lblProdName, txtprodName);
@@ -94,7 +95,7 @@ public class ProductListView extends Application {
         HBox hboxNewPrice = new HBox(10, lblnewPrice, txtNewPrice);
 
 
-        VBox vboxFields = new VBox(hboxProdName, hboxQuantity, hboxoldPrice, hboxNewPrice, prodImageView, lblDescrTitle, lblDescr, btnUpdate);
+        VBox vboxFields = new VBox(hboxProdName, hboxQuantity, hboxoldPrice, hboxNewPrice, prodImageView, lblDescrTitle, lblDescr, btnUpdate, btnReport);
         vboxFields.setSpacing(20);
 
         HBox hboxMain = new HBox(vboxFields, list);
